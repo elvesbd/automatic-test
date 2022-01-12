@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductService } from './product.service';
 import { NotFoundException } from '@nestjs/common';
 import { ProductRepository } from '../repository/product.repository';
+import { ProductService } from '../services/product.service';
+import { mockCreateProduct } from './mocks/create-product';
+import { mockProduct } from './mocks/product';
 
 describe('ProductService', () => {
   let productService;
@@ -32,17 +34,12 @@ describe('ProductService', () => {
     test('should save a product in the database', async () => {
       productRepository.createProduct.mockResolvedValue('someProduct');
       expect(productRepository.createProduct).not.toHaveBeenCalled();
-      const createProductDto = {
-        name: 'sample name',
-        description: 'sample description',
-        price: 'sample price',
-      };
 
-      const result = await productService.createProduct(createProductDto);
+      const result = await productService.createProduct(mockCreateProduct);
       expect(productRepository.createProduct).toHaveBeenCalledWith(
-        createProductDto,
+        mockCreateProduct,
       );
-      expect(result).toEqual('some');
+      expect(result).toEqual('someProduct');
     });
   });
 
@@ -59,11 +56,6 @@ describe('ProductService', () => {
 
   describe('getProduct', () => {
     test('should retrieve a product with an ID', async () => {
-      const mockProduct = {
-        name: 'Test name',
-        description: 'Test description',
-        price: 'Test price',
-      };
       productRepository.findOne.mockResolvedValue(mockProduct);
       const result = await productService.getProduct(1);
       expect(result).toEqual(mockProduct);
