@@ -42,7 +42,7 @@ describe('ProductService', () => {
       expect(productRepository.createProduct).toHaveBeenCalledWith(
         createProductDto,
       );
-      expect(result).toEqual('someProduct');
+      expect(result).toEqual('some');
     });
   });
 
