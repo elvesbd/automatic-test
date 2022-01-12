@@ -8,9 +8,8 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: yarn
       - run:
-          command: yarn test
+          command: npm run test
 workflows:
   build-and-test:
     jobs:
